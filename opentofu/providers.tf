@@ -3,7 +3,7 @@ terraform {
 
   required_providers {
     xenorchestra = {
-      source  = "registry.opentofu.org/terra-farm/xenorchestra"
+      source  = "registry.opentofu.org/vatesfr/xenorchestra"
       version = "~> 0.26"
     }
   }
