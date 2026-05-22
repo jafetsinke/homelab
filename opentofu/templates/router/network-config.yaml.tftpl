@@ -4,7 +4,7 @@ ethernets:
     match:
       name: enX0
     addresses:
-      - ${ipv4_cidr}
+      - ${ipv4_address}
     routes:
       - to: default
         via: ${gateway}

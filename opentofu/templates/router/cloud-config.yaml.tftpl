@@ -23,15 +23,20 @@ users:
 %{ endfor ~}
 %{ endfor ~}
 
-ssh_pwauth: false
 disable_root: true
 package_update: true
 package_upgrade: true
+
+packages:
+  - wireguard
+  - wireguard-tools
+  - nftables
 
 growpart:
   mode: auto
 resize_rootfs: true
 
 runcmd:
+  - sysctl -w net.ipv4.ip_forward=1
   - id -u packer >/dev/null 2>&1 && userdel -f -r packer || true
   - id -u ubuntu >/dev/null 2>&1 && userdel -f -r ubuntu || true

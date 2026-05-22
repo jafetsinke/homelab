@@ -18,3 +18,8 @@ output "router_dev_password" {
   value       = random_password.dev.result
   sensitive   = true
 }
+
+output "router_wg_public_key" {
+  description = "WireGuard server public key (use as [Peer] PublicKey on road-warrior clients)"
+  value       = wireguard_asymmetric_key.router.public_key
+}
