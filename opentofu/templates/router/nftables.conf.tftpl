@@ -18,7 +18,14 @@ table ip filter {
 		ct state established,related accept
 		iifname "${lan_interface}" udp dport 53535 accept
 		iifname "${lan_interface}" ip saddr 10.53.0.0/24 tcp dport 22 accept
+		iifname "${lan_interface}" ip saddr 10.53.0.0/24 udp dport 53 accept
+		iifname "${lan_interface}" ip saddr 10.53.0.0/24 tcp dport 53 accept
+		iifname "${lan_interface}" ip saddr 10.53.0.0/24 tcp dport { 80, 443 } accept
+		iifname "wg0" ip saddr 10.53.1.0/24 udp dport 53 accept
+		iifname "wg0" ip saddr 10.53.1.0/24 tcp dport 53 accept
+		iifname "wg0" ip saddr 10.53.1.0/24 tcp dport { 80, 443 } accept
 		iifname "${lan_interface}" ct state established,related accept
+		iifname "wg0" ct state established,related accept
 	}
 
 	chain forward {

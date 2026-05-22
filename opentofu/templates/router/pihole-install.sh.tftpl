@@ -1,0 +1,13 @@
+#!/bin/bash
+# Managed by OpenTofu (rendered in cloud-init)
+set -euo pipefail
+
+export DEBIAN_FRONTEND=noninteractive
+
+# Skip interactive installer dialogs on fresh installs (Pi-hole v6).
+mkdir -p /etc/pihole
+touch /etc/pihole/pihole.toml
+
+curl -fsSL https://install.pi-hole.net -o /tmp/pihole-install.sh
+PIHOLE_SKIP_OS_CHECK=true bash /tmp/pihole-install.sh --unattended
+rm -f /tmp/pihole-install.sh

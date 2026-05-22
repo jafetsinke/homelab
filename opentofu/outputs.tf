@@ -23,3 +23,10 @@ output "router_wg_public_key" {
   description = "WireGuard server public key (use as [Peer] PublicKey on road-warrior clients)"
   value       = wireguard_asymmetric_key.router.public_key
 }
+
+
+output "router_pihole_password" {
+  description = "Pi-hole web admin password"
+  value       = random_password.pihole.result
+  sensitive   = true
+}

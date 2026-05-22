@@ -3,6 +3,11 @@ resource "random_password" "dev" {
   special = false
 }
 
+resource "random_password" "pihole" {
+  length  = 24
+  special = false
+}
+
 resource "wireguard_asymmetric_key" "router" {}
 
 locals {
@@ -22,6 +27,10 @@ locals {
   router_nftables_conf = templatefile("${path.module}/templates/router/nftables.conf.tftpl", {
     lan_interface = "enX0"
   })
+
+  router_local_dns_list = file("${path.module}/templates/router/local-dns.list.tftpl")
+
+  router_pihole_install_script = templatefile("${path.module}/templates/router/pihole-install.sh.tftpl", {})
 }
 
 # Tracks user-data + network-config; any change forces a new VM so cloud-init runs on first boot.
@@ -39,6 +48,7 @@ resource "xenorchestra_cloud_config" "router" {
     admin_username        = local.admin_username
     admin_password        = random_password.dev.result
     users                 = local.users
+    pihole_install_script = local.router_pihole_install_script
   })
 }
 
@@ -47,7 +57,7 @@ resource "xenorchestra_vm" "router" {
   name_description = "WireGuard ingress + Pi-hole"
 
   cpus       = 1
-  memory_max = 512 * 1024 * 1024 # 512 MiB
+  memory_max = 512 * 1024 * 1024 # 512 MiB (+ 512 MiB swap in cloud-init)
 
   template      = data.xenorchestra_template.ubuntu_2404_golden.id
   affinity_host = data.xenorchestra_host.shiitake.id
@@ -94,9 +104,11 @@ resource "null_resource" "router_ingress_config" {
   depends_on = [xenorchestra_vm.router]
 
   triggers = {
-    wg0_conf       = sha256(local.router_wg0_conf)
-    nftables_conf  = sha256(local.router_nftables_conf)
-    vm_id          = xenorchestra_vm.router.id
+    wg0_conf        = sha256(local.router_wg0_conf)
+    nftables_conf   = sha256(local.router_nftables_conf)
+    local_dns_list  = sha256(local.router_local_dns_list)
+    pihole_password = random_password.pihole.result
+    vm_id           = xenorchestra_vm.router.id
   }
 
   connection {
@@ -110,6 +122,8 @@ resource "null_resource" "router_ingress_config" {
   provisioner "remote-exec" {
     inline = [
       "for i in $(seq 1 60); do cloud-init status --wait && break || sleep 5; done",
+      "for i in $(seq 1 120); do command -v pihole >/dev/null 2>&1 && sudo pihole status >/dev/null 2>&1 && break; sleep 10; done",
+      "command -v pihole >/dev/null 2>&1 || (echo 'Pi-hole not installed after cloud-init' >&2; exit 1)",
       "mkdir -p /tmp/opentofu",
     ]
   }
@@ -124,15 +138,26 @@ resource "null_resource" "router_ingress_config" {
     destination = "/tmp/opentofu/wg0.conf"
   }
 
+  provisioner "file" {
+    content     = local.router_local_dns_list
+    destination = "/tmp/opentofu/local-dns.list"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "set -eu",
       "sudo install -m 644 -o root -g root /tmp/opentofu/nftables.conf /etc/nftables.conf",
       "sudo install -m 600 -o root -g root /tmp/opentofu/wg0.conf /etc/wireguard/wg0.conf",
+      "sudo install -m 644 -o root -g root /tmp/opentofu/local-dns.list /etc/pihole/custom.list",
+      "sudo pihole-FTL --config dns.upstreams '[\"1.1.1.1\", \"9.9.9.9\"]'",
+      "sudo pihole-FTL --config dns.listeningMode ALL",
+      "sudo pihole setpassword '${random_password.pihole.result}'",
+      "sudo pihole restartdns",
       "sudo systemctl enable nftables",
       "sudo systemctl restart nftables",
       "sudo systemctl enable wg-quick@wg0",
       "sudo systemctl restart wg-quick@wg0",
+      "sudo systemctl restart pihole-FTL",
       "rm -rf /tmp/opentofu",
     ]
   }
