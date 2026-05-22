@@ -6,6 +6,10 @@ terraform {
       source  = "registry.opentofu.org/vatesfr/xenorchestra"
       version = "~> 0.26"
     }
+    random = {
+      source  = "registry.opentofu.org/hashicorp/random"
+      version = "~> 3.6"
+    }
   }
 }
 

@@ -1,0 +1,15 @@
+version: 2
+ethernets:
+  enX0:
+    match:
+      name: enX0
+    addresses:
+      - ${ipv4_cidr}
+    routes:
+      - to: default
+        via: ${gateway}
+    nameservers:
+      addresses:
+%{ for dns in nameservers ~}
+        - ${dns}
+%{ endfor ~}

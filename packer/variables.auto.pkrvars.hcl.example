@@ -1,0 +1,9 @@
+remote_host     = "10.53.0.103"
+remote_username = "root"
+remote_password = "..."
+
+sr_name     = "Local storage"
+sr_iso_name = "Local ISO Store"
+
+# guest-tools.iso must live on this SR (VDI name_label must match tools_iso_name)
+tools_iso_name = "guest-tools.iso"

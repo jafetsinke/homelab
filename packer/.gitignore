@@ -1,0 +1,12 @@
+# Packer output artifacts
+output-*/
+packer-*/
+*.xva
+*.xva.gz
+
+# Local variable overrides (may contain secrets)
+*.auto.pkrvars.hcl
+!*.auto.pkrvars.hcl.example
+
+# Downloaded ISO cache (optional local mirror)
+cache/

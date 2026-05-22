@@ -1,0 +1,37 @@
+#cloud-config
+hostname: ${hostname}
+manage_etc_hosts: true
+
+users:
+  - name: ${admin_username}
+    gecos: ${admin_username}
+    groups: [sudo]
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    plain_text_passwd: "${admin_password}"
+    lock_passwd: false
+%{ for user in users ~}
+  - name: ${user.name}
+    gecos: ${user.name}
+    groups: [sudo]
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: true
+    ssh_authorized_keys:
+%{ for key in user.ssh_keys ~}
+      - ${key}
+%{ endfor ~}
+%{ endfor ~}
+
+ssh_pwauth: false
+disable_root: true
+package_update: true
+package_upgrade: true
+
+growpart:
+  mode: auto
+resize_rootfs: true
+
+runcmd:
+  - id -u packer >/dev/null 2>&1 && userdel -f -r packer || true
+  - id -u ubuntu >/dev/null 2>&1 && userdel -f -r ubuntu || true

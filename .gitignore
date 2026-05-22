@@ -16,3 +16,11 @@ terraform.rc
 
 # ISO images (downloaded locally, uploaded to XCP-ng via Terraform)
 isos/*.iso
+
+# Packer
+packer/*.pkrvars.hcl
+packer/cache/
+packer/output-*/
+packer/packer-*/
+packer/*.xva
+packer/*.xva.gz
