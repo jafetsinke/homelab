@@ -24,6 +24,10 @@ output "router_wg_public_key" {
   value       = wireguard_asymmetric_key.router.public_key
 }
 
+output "router_data_vdi_id" {
+  description = "router-data VDI attached to the router VM"
+  value       = xenorchestra_vm.router.disk[1].vdi_id
+}
 
 output "router_pihole_password" {
   description = "Pi-hole web admin password"

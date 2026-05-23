@@ -33,8 +33,13 @@ packages:
   - nftables
   - curl
   - ca-certificates
+  - parted
 
 write_files:
+  - path: /usr/local/sbin/setup-data-disk-opentofu
+    permissions: "0755"
+    content: |
+      ${indent(6, setup_data_disk_script)}
   - path: /usr/local/sbin/pihole-install-opentofu
     permissions: "0755"
     content: |
@@ -53,4 +58,5 @@ runcmd:
   - sysctl -w net.ipv4.ip_forward=1
   - id -u packer >/dev/null 2>&1 && userdel -f -r packer || true
   - id -u ubuntu >/dev/null 2>&1 && userdel -f -r ubuntu || true
+  - /usr/local/sbin/setup-data-disk-opentofu
   - /usr/local/sbin/pihole-install-opentofu

@@ -28,9 +28,7 @@ locals {
     lan_interface = "enX0"
   })
 
-  router_local_dns_list = file("${path.module}/templates/router/local-dns.list.tftpl")
-
-  router_pihole_install_script = templatefile("${path.module}/templates/router/pihole-install.sh.tftpl", {})
+  router_pihole_install_script = file("${path.module}/templates/router/pihole-install.sh")
 }
 
 # Tracks user-data + network-config; any change forces a new VM so cloud-init runs on first boot.
@@ -44,11 +42,12 @@ resource "terraform_data" "router_cloud_revision" {
 resource "xenorchestra_cloud_config" "router" {
   name = "router-cloud-config"
   template = templatefile("${path.module}/templates/router/cloud-config.yaml.tftpl", {
-    hostname              = "router"
-    admin_username        = local.admin_username
-    admin_password        = random_password.dev.result
-    users                 = local.users
-    pihole_install_script = local.router_pihole_install_script
+    hostname                   = "router"
+    admin_username             = local.admin_username
+    admin_password             = random_password.dev.result
+    users                      = local.users
+    pihole_install_script  = local.router_pihole_install_script
+    setup_data_disk_script = local.setup_data_disk_script
   })
 }
 
@@ -63,19 +62,19 @@ resource "xenorchestra_vm" "router" {
   affinity_host = data.xenorchestra_host.shiitake.id
   clone_type    = "full"
 
-  cloud_config = xenorchestra_cloud_config.router.template
+  cloud_config         = xenorchestra_cloud_config.router.template
   cloud_network_config = local.router_network_config
-  
+
   destroy_cloud_config_vdi_after_boot = true
+
+  power_state  = "Running"
+  auto_poweron = true
 
   lifecycle {
     replace_triggered_by = [
       terraform_data.router_cloud_revision,
     ]
   }
-
-  power_state  = "Running"
-  auto_poweron = true
 
   hvm_boot_firmware = "uefi"
 
@@ -86,8 +85,14 @@ resource "xenorchestra_vm" "router" {
 
   disk {
     sr_id      = data.xenorchestra_sr.default.id
-    name_label = data.xenorchestra_template.ubuntu_2404_golden.name_label
+    name_label = "router-root"
     size       = 20 * 1024 * 1024 * 1024 # 20 GiB
+  }
+
+  disk {
+    sr_id      = data.xenorchestra_sr.default.id
+    name_label = "router-data"
+    size       = 5 * 1024 * 1024 * 1024 # 5 GiB
   }
 
   timeouts {
@@ -106,17 +111,16 @@ resource "null_resource" "router_ingress_config" {
   triggers = {
     wg0_conf        = sha256(local.router_wg0_conf)
     nftables_conf   = sha256(local.router_nftables_conf)
-    local_dns_list  = sha256(local.router_local_dns_list)
     pihole_password = random_password.pihole.result
     vm_id           = xenorchestra_vm.router.id
   }
 
   connection {
-    type        = "ssh"
-    host        = local.router_ipv4_host
-    user        = local.admin_username
-    password    = random_password.dev.result
-    timeout     = "5m"
+    type     = "ssh"
+    host     = local.router_ipv4_host
+    user     = local.admin_username
+    password = random_password.dev.result
+    timeout  = "5m"
   }
 
   provisioner "remote-exec" {
@@ -124,6 +128,9 @@ resource "null_resource" "router_ingress_config" {
       "for i in $(seq 1 60); do cloud-init status --wait && break || sleep 5; done",
       "for i in $(seq 1 120); do command -v pihole >/dev/null 2>&1 && sudo pihole status >/dev/null 2>&1 && break; sleep 10; done",
       "command -v pihole >/dev/null 2>&1 || (echo 'Pi-hole not installed after cloud-init' >&2; exit 1)",
+      "DATA_MNT=$(find /mnt -mindepth 1 -maxdepth 1 -type d | head -1)",
+      "[[ -n \"$DATA_MNT\" ]] && mountpoint -q \"$DATA_MNT\" || (echo 'No data VDI mounted under /mnt' >&2; exit 1)",
+      "mountpoint -q /etc/pihole || (echo '/etc/pihole not bind-mounted' >&2; exit 1)",
       "mkdir -p /tmp/opentofu",
     ]
   }
@@ -138,21 +145,12 @@ resource "null_resource" "router_ingress_config" {
     destination = "/tmp/opentofu/wg0.conf"
   }
 
-  provisioner "file" {
-    content     = local.router_local_dns_list
-    destination = "/tmp/opentofu/local-dns.list"
-  }
-
   provisioner "remote-exec" {
     inline = [
       "set -eu",
       "sudo install -m 644 -o root -g root /tmp/opentofu/nftables.conf /etc/nftables.conf",
       "sudo install -m 600 -o root -g root /tmp/opentofu/wg0.conf /etc/wireguard/wg0.conf",
-      "sudo install -m 644 -o root -g root /tmp/opentofu/local-dns.list /etc/pihole/custom.list",
-      "sudo pihole-FTL --config dns.upstreams '[\"1.1.1.1\", \"9.9.9.9\"]'",
-      "sudo pihole-FTL --config dns.listeningMode ALL",
       "sudo pihole setpassword '${random_password.pihole.result}'",
-      "sudo pihole restartdns",
       "sudo systemctl enable nftables",
       "sudo systemctl restart nftables",
       "sudo systemctl enable wg-quick@wg0",
