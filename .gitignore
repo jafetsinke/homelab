@@ -24,3 +24,7 @@ packer/output-*/
 packer/packer-*/
 packer/*.xva
 packer/*.xva.gz
+
+# Python
+__pycache__/
+*.pyc

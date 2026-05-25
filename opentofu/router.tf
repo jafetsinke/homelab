@@ -11,8 +11,8 @@ resource "random_password" "pihole" {
 resource "wireguard_asymmetric_key" "router" {}
 
 locals {
-  router_ipv4_host   = "10.53.0.2"
-  router_ipv4_cidr   = "24"
+  router_ipv4_host = "10.53.0.2"
+  router_ipv4_cidr = "24"
 
   router_network_config = templatefile("${path.module}/templates/router/network-config.yaml.tftpl", {
     ipv4_address = "${local.router_ipv4_host}/${local.router_ipv4_cidr}"
@@ -42,10 +42,10 @@ resource "terraform_data" "router_cloud_revision" {
 resource "xenorchestra_cloud_config" "router" {
   name = "router-cloud-config"
   template = templatefile("${path.module}/templates/router/cloud-config.yaml.tftpl", {
-    hostname                   = "router"
-    admin_username             = local.admin_username
-    admin_password             = random_password.dev.result
-    users                      = local.users
+    hostname               = "router"
+    admin_username         = local.admin_username
+    admin_password         = random_password.dev.result
+    users                  = local.users
     pihole_install_script  = local.router_pihole_install_script
     setup_data_disk_script = local.setup_data_disk_script
   })

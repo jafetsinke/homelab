@@ -4,7 +4,6 @@ manage_etc_hosts: true
 
 users:
   - name: ${admin_username}
-    gecos: ${admin_username}
     groups: [sudo]
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
@@ -12,7 +11,6 @@ users:
     lock_passwd: false
 %{ for user in users ~}
   - name: ${user.name}
-    gecos: ${user.name}
     groups: [sudo]
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
