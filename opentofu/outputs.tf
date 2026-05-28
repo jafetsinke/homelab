@@ -5,12 +5,7 @@ output "local_iso_sr_id" {
 
 output "router_vm_id" {
   description = "Xen Orchestra ID for the router VM"
-  value       = xenorchestra_vm.router.id
-}
-
-output "router_ipv4_addresses" {
-  description = "IPv4 addresses on the router VM (requires guest tools after install)"
-  value       = xenorchestra_vm.router.network[0].ipv4_addresses
+  value       = module.router.vm_id
 }
 
 output "router_dev_password" {
@@ -22,11 +17,6 @@ output "router_dev_password" {
 output "router_wg_public_key" {
   description = "WireGuard server public key (use as [Peer] PublicKey on road-warrior clients)"
   value       = wireguard_asymmetric_key.router.public_key
-}
-
-output "router_data_vdi_id" {
-  description = "router-data VDI attached to the router VM"
-  value       = xenorchestra_vm.router.disk[1].vdi_id
 }
 
 output "router_pihole_password" {

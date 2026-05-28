@@ -2,14 +2,11 @@ variable "xo_url" {
   description = "Xen Orchestra WebSocket URL (ws:// or wss://host)"
   type        = string
 }
-variable "xo_username" {
-  description = "Xen Orchestra username (ignored when xo_token is set)"
+variable "xo_token" {
+  description = "Xen Orchestra API token"
   type        = string
-}
-
-variable "xo_password" {
-  description = "Xen Orchestra password (ignored when xo_token is set)"
-  type        = string
+  default     = null
+  nullable    = true
   sensitive   = true
 }
 

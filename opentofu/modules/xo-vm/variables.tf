@@ -1,11 +1,20 @@
-variable "name_label" {
+variable "hostname" {
   type        = string
-  description = "VM name label in Xen Orchestra."
+  description = "Guest hostname and VM name label in Xen Orchestra."
 }
 
 variable "template_id" {
   type        = string
   description = "XO template UUID to clone."
+}
+
+variable "xo_auth" {
+  type = object({
+    url      = optional(string)
+    token    = optional(string)
+    insecure = optional(bool, false)
+  })
+  description = "Optional XO API token/settings for helper scripts. All fields optional."
 }
 
 variable "network_id" {
@@ -54,7 +63,7 @@ variable "network" {
     nameservers  = optional(list(string), [])
   })
   default     = null
-  description = "Optional static IPv4 settings for the primary VIF and generated cloud-init network-config v2."
+  description = "Optional static IPv4 settings rendered into cloud-init network-config v2."
 }
 
 variable "persistent_disks" {
@@ -84,6 +93,12 @@ variable "clone_type" {
   type        = string
   default     = null
   description = "Optional clone type (for example full)."
+}
+
+variable "hvm_boot_firmware" {
+  type        = string
+  default     = "uefi"
+  description = "HVM boot firmware to use for the VM."
 }
 
 variable "tags" {

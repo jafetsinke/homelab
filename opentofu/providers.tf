@@ -27,7 +27,6 @@ terraform {
 
 provider "xenorchestra" {
   url      = var.xo_url
-  username = var.xo_username
-  password = var.xo_password
+  token    = var.xo_token
   insecure = var.xo_insecure
 }
