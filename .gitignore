@@ -28,3 +28,8 @@ packer/*.xva.gz
 # Python
 __pycache__/
 *.pyc
+
+# Dockge
+.env
+docker/dockge/data/
+docker/stacks/*/data/
