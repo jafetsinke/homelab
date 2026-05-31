@@ -1,7 +1,0 @@
-{
-	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-}
-
-dockge.jafet.dev {
-	reverse_proxy dockge:5001
-}

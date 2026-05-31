@@ -1,0 +1,53 @@
+---
+theme: auto
+
+server:
+  address: 'tcp://:9091/'
+  endpoints:
+    authz:
+      forward-auth:
+        implementation: 'ForwardAuth'
+
+log:
+  level: info
+
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+
+access_control:
+  default_policy: deny
+  rules:
+    - domain: 'auth.jafet.dev'
+      policy: bypass
+    - domain: 'dockge.jafet.dev'
+      policy: one_factor
+    # Per-service rules — add entries below as you expose more apps.
+    # No auth:
+    # - domain: 'public.example.jafet.dev'
+    #   policy: bypass
+    # Trusted network bypass (LAN / wg0):
+    # - domain: 'internal.example.jafet.dev'
+    #   policy: bypass
+    #   networks:
+    #     - 10.0.0.0/8
+    #     - 192.168.0.0/16
+    #     - fd00::/8
+
+session:
+  name: authelia_session
+  same_site: lax
+  expiration: 1h
+  inactivity: 5m
+  cookies:
+    - domain: jafet.dev
+      authelia_url: https://auth.jafet.dev
+      default_redirection_url: https://dockge.jafet.dev
+
+storage:
+  local:
+    path: /config/db.sqlite3
+
+notifier:
+  filesystem:
+    filename: /config/notification.txt

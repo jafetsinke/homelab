@@ -33,3 +33,6 @@ __pycache__/
 .env
 docker/dockge/data/
 docker/stacks/*/data/
+docker/stacks/*/authelia/db.sqlite3
+docker/stacks/*/authelia/notification.txt
+docker/stacks/*/authelia/users_database.yml
