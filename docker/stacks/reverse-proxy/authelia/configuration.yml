@@ -20,6 +20,8 @@ access_control:
   rules:
     - domain: 'auth.jafet.dev'
       policy: bypass
+    - domain: 'home.jafet.dev'
+      policy: one_factor
     - domain: 'dockge.jafet.dev'
       policy: one_factor
     # Per-service rules — add entries below as you expose more apps.
@@ -42,7 +44,7 @@ session:
   cookies:
     - domain: jafet.dev
       authelia_url: https://auth.jafet.dev
-      default_redirection_url: https://dockge.jafet.dev
+      default_redirection_url: https://home.jafet.dev
 
 storage:
   local:

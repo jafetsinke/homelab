@@ -3,6 +3,12 @@ services:
     build: .
     container_name: caddy
     restart: unless-stopped
+    labels:
+      - homepage.group=Infrastructure
+      - homepage.name=Caddy
+      - homepage.icon=caddy.png
+      - homepage.description=Reverse proxy and TLS
+      - homepage.weight=1
     ports:
       - 80:80
       - 443:443
@@ -21,6 +27,13 @@ services:
     image: authelia/authelia:latest
     container_name: authelia
     restart: unless-stopped
+    labels:
+      - homepage.group=Infrastructure
+      - homepage.name=Authelia
+      - homepage.icon=authelia.png
+      - homepage.href=https://auth.jafet.dev
+      - homepage.description=Authentication portal
+      - homepage.weight=0
     volumes:
       - ./authelia:/config
     environment:
@@ -34,6 +47,12 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
     restart: unless-stopped
+    labels:
+      - homepage.group=Infrastructure
+      - homepage.name=Cloudflare Tunnel
+      - homepage.icon=cloudflare.png
+      - homepage.description=Secure ingress tunnel
+      - homepage.weight=2
     command: tunnel run
     environment:
       TUNNEL_TOKEN: ${TUNNEL_TOKEN}
@@ -45,6 +64,7 @@ services:
 networks:
   proxy:
     name: proxy
+    external: true
 
 volumes:
   caddy_data:

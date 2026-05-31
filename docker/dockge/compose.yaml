@@ -3,6 +3,13 @@ services:
     image: louislam/dockge:1
     container_name: dockge
     restart: unless-stopped
+    labels:
+      - homepage.group=Management
+      - homepage.name=Dockge
+      - homepage.icon=dockge.png
+      - homepage.href=https://dockge.jafet.dev
+      - homepage.description=Docker stack manager
+      - homepage.weight=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data:/app/data

@@ -1,0 +1,23 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    labels:
+      - homepage.group=Management
+      - homepage.name=Homepage
+      - homepage.icon=homepage.png
+      - homepage.href=https://home.jafet.dev
+      - homepage.description=Application dashboard
+      - homepage.weight=0
+    volumes:
+      - ./config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: home.jafet.dev
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

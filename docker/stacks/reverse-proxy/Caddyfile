@@ -2,17 +2,28 @@
 	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
 }
 
-# Uncomment to preserve client IPs from LAN/wg0 for Authelia network rules:
-# trusted_proxies 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 fc00::/7
-
-auth.jafet.dev {
+http://auth.jafet.dev, auth.jafet.dev {
 	reverse_proxy authelia:9091
 }
 
-dockge.jafet.dev {
+http://home.jafet.dev, home.jafet.dev {
 	forward_auth authelia:9091 {
 		uri /api/authz/forward-auth
 		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+		header_up X-Forwarded-Proto https
 	}
-	reverse_proxy dockge:5001
+	reverse_proxy homepage:3000
+}
+
+http://dockge.jafet.dev, dockge.jafet.dev {
+	forward_auth authelia:9091 {
+		uri /api/authz/forward-auth
+		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+		header_up X-Forwarded-Proto https
+	}
+	reverse_proxy dockge:5001 {
+		header_up Host {host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
 }

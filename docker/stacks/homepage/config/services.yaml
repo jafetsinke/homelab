@@ -1,0 +1,4 @@
+---
+# Services are auto-discovered from Docker labels (homepage.*).
+# https://gethomepage.dev/configs/docker/#automatic-service-discovery
+[]
