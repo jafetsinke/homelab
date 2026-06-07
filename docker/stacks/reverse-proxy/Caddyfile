@@ -2,28 +2,47 @@
 	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
 }
 
+(authelia_forward_auth) {
+	forward_auth authelia:9091 {
+		uri /api/authz/forward-auth
+		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+		header_up X-Forwarded-Proto https
+	}
+}
+
+(proxy_headers) {
+	header_up Host {host}
+	header_up X-Forwarded-For {remote_host}
+	header_up X-Forwarded-Proto {scheme}
+}
+
+(internal) {
+	@internal remote_ip 10.53.0.0/23
+	handle @internal {
+		reverse_proxy {args[0]} {
+			import proxy_headers
+		}
+	}
+	respond "Forbidden" 403
+}
+
 http://auth.jafet.dev, auth.jafet.dev {
 	reverse_proxy authelia:9091
 }
 
 http://home.jafet.dev, home.jafet.dev {
-	forward_auth authelia:9091 {
-		uri /api/authz/forward-auth
-		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-		header_up X-Forwarded-Proto https
-	}
+	import authelia_forward_auth
 	reverse_proxy homepage:3000
 }
 
 http://dockge.jafet.dev, dockge.jafet.dev {
-	forward_auth authelia:9091 {
-		uri /api/authz/forward-auth
-		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-		header_up X-Forwarded-Proto https
-	}
+	import authelia_forward_auth
 	reverse_proxy dockge:5001 {
-		header_up Host {host}
-		header_up X-Forwarded-For {remote_host}
-		header_up X-Forwarded-Proto {scheme}
+		import proxy_headers
 	}
+}
+
+http://openmediavault.jafet.dev, openmediavault.jafet.dev,
+http://omv.jafet.dev, omv.jafet.dev {
+	import internal 10.53.0.30
 }
