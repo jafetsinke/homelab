@@ -1,29 +1,35 @@
 {
 	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+
+	servers {
+		# cloudflared connects from the Docker proxy network; trust CF-Connecting-IP from it
+		trusted_proxies static 172.19.0.0/16
+		client_ip_headers Cf-Connecting-Ip X-Forwarded-For
+	}
 }
 
 (authelia_forward_auth) {
 	forward_auth authelia:9091 {
 		uri /api/authz/forward-auth
 		copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-		header_up X-Forwarded-Proto https
+		header_up X-Forwarded-For {client_ip}
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-Host {host}
+		header_up X-Forwarded-Uri {uri}
 	}
 }
 
 (proxy_headers) {
 	header_up Host {host}
-	header_up X-Forwarded-For {remote_host}
+	header_up X-Forwarded-For {client_ip}
 	header_up X-Forwarded-Proto {scheme}
 }
 
-(internal) {
-	@internal remote_ip 10.53.0.0/23
-	handle @internal {
-		reverse_proxy {args[0]} {
-			import proxy_headers
-		}
+(proxied) {
+	import authelia_forward_auth
+	reverse_proxy {args[0]} {
+		import proxy_headers
 	}
-	respond "Forbidden" 403
 }
 
 http://auth.jafet.dev, auth.jafet.dev {
@@ -31,18 +37,13 @@ http://auth.jafet.dev, auth.jafet.dev {
 }
 
 http://home.jafet.dev, home.jafet.dev {
-	import authelia_forward_auth
-	reverse_proxy homepage:3000
+	import proxied homepage:3000
 }
 
 http://dockge.jafet.dev, dockge.jafet.dev {
-	import authelia_forward_auth
-	reverse_proxy dockge:5001 {
-		import proxy_headers
-	}
+	import proxied dockge:5001
 }
 
-http://openmediavault.jafet.dev, openmediavault.jafet.dev,
-http://omv.jafet.dev, omv.jafet.dev {
-	import internal 10.53.0.30
+http://statainer.jafet.dev, statainer.jafet.dev {
+	import proxied statainer:5000
 }

@@ -20,21 +20,13 @@ access_control:
   rules:
     - domain: 'auth.jafet.dev'
       policy: bypass
-    - domain: 'home.jafet.dev'
+    - domain:
+        - 'home.jafet.dev'
+        - 'dockge.jafet.dev'
+        - 'statainer.jafet.dev'
       policy: one_factor
-    - domain: 'dockge.jafet.dev'
-      policy: one_factor
-    # Per-service rules — add entries below as you expose more apps.
-    # No auth:
-    # - domain: 'public.example.jafet.dev'
-    #   policy: bypass
-    # Trusted network bypass (LAN / wg0):
-    # - domain: 'internal.example.jafet.dev'
-    #   policy: bypass
-    #   networks:
-    #     - 10.0.0.0/8
-    #     - 192.168.0.0/16
-    #     - fd00::/8
+      networks:
+        - 10.53.0.0/23
 
 session:
   name: authelia_session

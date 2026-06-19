@@ -19,6 +19,7 @@ plugins/BlueMap/web/maps/
 *.cache
 .cache/
 cache/
+usercache.json
 .tmp/
 libraries/
 *.jar
