@@ -1,0 +1,36 @@
+world/
+
+# Ignore logs
+logs/
+*.log
+*.log.gz
+
+# Ignore crash reports
+crash-reports/
+
+# Ignore cache / installer artifacts
+*.cache
+.cache/
+cache/
+.tmp/
+libraries/
+versions/
+.fabric/
+
+# Mods downloaded at runtime (see compose.yaml MODRINTH_PROJECTS)
+mods/
+*.jar
+
+# Installer / container manifests
+.modrinth-manifest.json
+.fabric-manifest.json
+.install-fabric.env
+.rcon-cli.yaml
+.rcon-cli.env
+
+# Runtime player cache
+usercache.json
+usercache.json.env
+
+# LuckPerms auto-downloaded translations (DB lives under mods/luckperms/)
+config/luckperms/translations/
