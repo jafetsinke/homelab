@@ -1,6 +1,6 @@
 services:
   minecraft:
-    image: itzg/minecraft-server:java21
+    image: itzg/minecraft-server:java25
     container_name: minecraft
     restart: unless-stopped
     labels:
@@ -14,7 +14,7 @@ services:
     environment:
       EULA: "TRUE"
       TYPE: FABRIC
-      VERSION: "1.21.11"
+      VERSION: "26.2"
       MEMORY: 4G
       USE_AIKAR_FLAGS: "true"
       SERVER_PORT: "25565"
@@ -24,7 +24,10 @@ services:
         lithium
         ferrite-core
         luckperms
-        essential-commands
+        essential-commands:beta
+        servercore
+        zfastnoise
+        scalablelux
       MODRINTH_DOWNLOAD_DEPENDENCIES: required
     volumes:
       - ./fabric:/data
