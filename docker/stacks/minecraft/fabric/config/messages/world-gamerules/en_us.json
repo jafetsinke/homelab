@@ -1,0 +1,7 @@
+{
+  "world-gamerules.commands.gamerule.set.empty": "<red>No dimension was found",
+  "world-gamerules.commands.gamerule.set": "<yellow>Gamerule <gold>${gamerule} <yellow>is now set to <gold>${value}<yellow> in <gold>${dimensions} <yellow>dimension(s)",
+  "world-gamerules.commands.gamerule.get": "<yellow>Gamerule <gold>${gamerule}<yellow>:\n${list}",
+  "world-gamerules.commands.gamerule.get.list.element": "<yellow>- ${dimension}: <gold>${value}",
+  "world-gamerules.commands.gamerule.get.list.separator": "\n"
+}

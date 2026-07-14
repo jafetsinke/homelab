@@ -7,7 +7,7 @@ services:
       - homepage.group=Games
       - homepage.name=Minecraft
       - homepage.icon=minecraft.png
-      - homepage.description=Fabric 1.21.11 — mc.jafet.dev:25565
+      - homepage.description=Fabric 26.2 — mc.jafet.dev:25565
       - homepage.weight=0
     ports:
       - 25565:25565
@@ -28,7 +28,12 @@ services:
         servercore
         zfastnoise
         scalablelux
+        clumps
+        syncmatica
+        death-count
+        invview
       MODRINTH_DOWNLOAD_DEPENDENCIES: required
+      INITIAL_ENABLED_PACKS: "vanilla,minecart_improvements"
     volumes:
       - ./fabric:/data
     networks:
