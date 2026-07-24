@@ -1,3 +1,0 @@
-*.tfvars
-*.pkrvars.hcl
-opentofu/

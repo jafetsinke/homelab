@@ -1,3 +1,0 @@
-xo_url      = "wss://10.53.0.103"
-xo_token    = "<api-token>"
-xo_insecure = true

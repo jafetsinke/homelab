@@ -43,7 +43,3 @@ http://home.jafet.dev, home.jafet.dev {
 http://dockge.jafet.dev, dockge.jafet.dev {
 	import proxied dockge:5001
 }
-
-http://statainer.jafet.dev, statainer.jafet.dev {
-	import proxied statainer:5000
-}
