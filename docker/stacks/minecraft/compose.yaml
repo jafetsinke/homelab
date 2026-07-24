@@ -32,8 +32,9 @@ services:
         syncmatica
         death-count
         invview
+        express-carts
       MODRINTH_DOWNLOAD_DEPENDENCIES: required
-      INITIAL_ENABLED_PACKS: "vanilla,minecart_improvements"
+      INITIAL_ENABLED_PACKS: "vanilla"
     volumes:
       - ./fabric:/data
     networks:

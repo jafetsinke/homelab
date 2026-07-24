@@ -1,0 +1,10 @@
+{
+  "maxMinecartSpeed": 64.0,
+  "waterSpeedMultiplier": 0.5,
+  "brakingEnabled": true,
+  "brakeSlowdown": 0.8,
+  "blockSpeedMultipliers": {},
+  "fastUnpoweredSlowdown": false,
+  "loadChunks": false,
+  "fallDamageMultiplier": 1.0
+}
