@@ -1,0 +1,13 @@
+[Unit]
+Description=Mycelia NFS share (OpenMediaVault)
+After=network-online.target
+Wants=network-online.target
+
+[Mount]
+What=10.53.0.30:/Mycelia
+Where=/mnt/mycelia
+Type=nfs
+Options=nfsvers=4,_netdev,hard,timeo=600,retrans=2
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,78 @@
+services:
+  navidrome:
+    image: deluan/navidrome:0.56.1@sha256:d8dcacba4cf48b4caa81f231f20ebba719e642b0f86a46b1b5c24bb4f27edddc
+    container_name: navidrome
+    user: ${HOST_USERNAME:-1000:1000}
+    restart: unless-stopped
+    environment:
+      ND_SCANSCHEDULE: "@every 1h"
+      ND_LOGLEVEL: info
+      ND_SESSIONTIMEOUT: 24h
+      ND_DEFAULTTHEME: Dark
+      ND_UIWELCOMEMESSAGE: Groetjes van Jafet
+      ND_UILOGINBACKGROUNDURL: https://placehold.co/600x400/9a89e8/9a89e8/jpeg
+      ND_PORT: 4533
+      ND_MUSICFOLDER: /music
+      ND_DATAFOLDER: /data
+      ND_SPOTIFY_ID: ${SPOTIFY_ID}
+      ND_SPOTIFY_SECRET: ${SPOTIFY_SECRET}
+      ND_LASTFM_APIKEY: ${LASTFM_APIKEY}
+      ND_LASTFM_SECRET: ${LASTFM_SECRET}
+    volumes:
+      - ./data/navidrome:/data
+      - /mnt/mycelia/dj-pool/music:/music
+    networks:
+      - proxy
+    labels:
+      - homepage.group=Media
+      - homepage.name=Navidrome
+      - homepage.icon=navidrome.png
+      - homepage.href=https://dj-pool.jafet.dev
+      - homepage.description=DJ pool music library
+      - homepage.weight=0
+
+  nicotine:
+    image: sirjmann92/nicotineplus-proper:gtk3@sha256:77da24f34046d90f1b356b4101c20cc91fd2788e642cf7a65fdd2556ae9ed309
+    container_name: nicotine
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Amsterdam
+      LOGIN: ${SLSK_USERNAME}
+      PASSW: ${SLSK_PASSWORD}
+      PUID: 1000
+      PGID: 1000
+    volumes:
+      - /mnt/mycelia/dj-pool/music/slsk_downloads:/downloads
+      - /mnt/mycelia/dj-pool/music:/shared
+      - ./data/nicotineplus/data:/data
+      - ./data/nicotineplus/config:/config
+    networks:
+      - proxy
+    labels:
+      - homepage.group=Media
+      - homepage.name=Nicotine+
+      - homepage.icon=nicotineplus.png
+      - homepage.href=https://nicotine.jafet.dev
+      - homepage.description=Soulseek client
+      - homepage.weight=1
+
+  ofelia:
+    image: mcuadros/ofelia:0.3.22
+    container_name: dj-pool-ofelia
+    restart: unless-stopped
+    command: daemon --config=/etc/ofelia/config.ini
+    volumes:
+      - ./ofelia/config.ini:/etc/ofelia/config.ini:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy
+    labels:
+      - homepage.group=Media
+      - homepage.name=Ofelia
+      - homepage.icon=mdi-calendar-clock
+      - homepage.description=dj-pool scheduled jobs
+      - homepage.weight=2
+
+networks:
+  proxy:
+    external: true
