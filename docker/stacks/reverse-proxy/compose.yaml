@@ -26,6 +26,7 @@ services:
   authelia:
     image: authelia/authelia:latest
     container_name: authelia
+    user: "1000:1000"
     restart: unless-stopped
     labels:
       - homepage.group=Infrastructure
@@ -46,6 +47,7 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
+    user: "1000:1000"
     restart: unless-stopped
     labels:
       - homepage.group=Infrastructure
@@ -63,6 +65,7 @@ services:
   newt:
     image: fosrl/newt:1.15.0
     container_name: newt
+    user: "1000:1000"
     restart: unless-stopped
     environment:
       - PANGOLIN_ENDPOINT=https://pangolin.jafet.dev

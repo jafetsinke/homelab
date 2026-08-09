@@ -2,7 +2,7 @@ services:
   navidrome:
     image: deluan/navidrome:0.56.1@sha256:d8dcacba4cf48b4caa81f231f20ebba719e642b0f86a46b1b5c24bb4f27edddc
     container_name: navidrome
-    user: ${HOST_USERNAME:-1000:1000}
+    user: "1000:1000"
     restart: unless-stopped
     environment:
       ND_SCANSCHEDULE: "@every 1h"
