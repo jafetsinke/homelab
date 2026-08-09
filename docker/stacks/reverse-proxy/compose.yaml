@@ -44,24 +44,6 @@ services:
     networks:
       - proxy
 
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared
-    user: "1000:1000"
-    restart: unless-stopped
-    labels:
-      - homepage.group=Infrastructure
-      - homepage.name=Cloudflare Tunnel
-      - homepage.icon=cloudflare.png
-      - homepage.description=Secure ingress tunnel
-      - homepage.weight=2
-    command: tunnel run
-    environment:
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
-    depends_on:
-      - caddy
-    networks:
-      - proxy
   newt:
     image: fosrl/newt:1.15.0
     container_name: newt
