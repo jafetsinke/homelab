@@ -45,7 +45,7 @@ services:
       - proxy
 
   newt:
-    image: fosrl/newt:1.15.0
+    image: fosrl/newt:latest
     container_name: newt
     user: "1000:1000"
     restart: unless-stopped

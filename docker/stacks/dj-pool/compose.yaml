@@ -32,7 +32,7 @@ services:
       - homepage.weight=0
 
   ofelia:
-    image: mcuadros/ofelia:0.3.22
+    image: mcuadros/ofelia:latest
     container_name: ofelia
     restart: unless-stopped
     command: daemon --config=/etc/ofelia/config.ini
