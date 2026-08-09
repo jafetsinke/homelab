@@ -24,13 +24,8 @@ access_control:
       policy: bypass
     - domain:
         - 'home.jafet.dev'
-        - 'dockge.jafet.dev'
-        - 'netdata.jafet.dev'
-        - 'status.jafet.dev'
-        - 'nicotine.jafet.dev'
+        - 'dockhand.jafet.dev'
       policy: one_factor
-      networks:
-        - 10.53.0.0/23
 
 session:
   name: authelia_session

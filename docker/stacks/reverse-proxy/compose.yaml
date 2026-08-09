@@ -60,6 +60,16 @@ services:
       - caddy
     networks:
       - proxy
+  newt:
+    image: fosrl/newt:1.15.0
+    container_name: newt
+    restart: unless-stopped
+    environment:
+      - PANGOLIN_ENDPOINT=https://pangolin.jafet.dev
+      - NEWT_ID=${NEWT_ID}
+      - NEWT_SECRET=${NEWT_SECRET}
+    networks:
+      - proxy
 
 networks:
   proxy:

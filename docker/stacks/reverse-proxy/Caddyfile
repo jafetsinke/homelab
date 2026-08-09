@@ -2,7 +2,6 @@
 	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
 
 	servers {
-		# cloudflared connects from the Docker proxy network; trust CF-Connecting-IP from it
 		trusted_proxies static 172.19.0.0/16
 		client_ip_headers Cf-Connecting-Ip X-Forwarded-For
 	}
@@ -40,16 +39,12 @@ http://home.jafet.dev, home.jafet.dev {
 	import proxied homepage:3000
 }
 
-http://dockge.jafet.dev, dockge.jafet.dev {
-	import proxied dockge:5001
+http://dockhand.jafet.dev, dockhand.jafet.dev {
+	import proxied dockhand:3000
 }
 
 http://dj-pool.jafet.dev, dj-pool.jafet.dev {
 	import proxied navidrome:4533
-}
-
-http://nicotine.jafet.dev, nicotine.jafet.dev {
-	import proxied nicotine:6565
 }
 
 http://*.jafet.dev, *.jafet.dev {

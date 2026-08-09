@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dockhand-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dockhand}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-dockhand}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - dockhand
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dockhand} -d ${POSTGRES_DB:-dockhand}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  dockhand:
+    image: fnsys/dockhand:latest
+    container_name: dockhand
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-dockhand}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-dockhand}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/dockhand:/app/data
+    networks:
+      - proxy
+      - dockhand
+    labels:
+      - homepage.group=Management
+      - homepage.name=Dockhand
+      - homepage.icon=mdi-docker
+      - homepage.href=https://dockhand.jafet.dev
+      - homepage.description=Docker management platform
+      - homepage.weight=2
+
+networks:
+  proxy:
+    external: true
+  dockhand:
+    driver: bridge
