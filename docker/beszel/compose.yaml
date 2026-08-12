@@ -1,0 +1,41 @@
+services:
+  beszel:
+    image: henrygd/beszel:latest
+    container_name: beszel
+    restart: unless-stopped
+    environment:
+      APP_URL: https://beszel.jafet.dev
+    ports:
+      # Local agent (host network) reaches the hub on localhost
+      - 127.0.0.1:8090:8090
+    volumes:
+      - ./data/beszel:/beszel_data
+      - ./data/beszel_socket:/beszel_socket
+    networks:
+      - proxy
+    labels:
+      - homepage.group=Infrastructure
+      - homepage.name=Beszel
+      - homepage.icon=mdi-chart-areaspline
+      - homepage.href=https://beszel.jafet.dev
+      - homepage.description=Server monitoring hub
+      - homepage.weight=3
+
+  beszel-agent:
+    image: henrygd/beszel-agent:latest
+    container_name: beszel-agent
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./data/beszel_agent:/var/lib/beszel-agent
+      - ./data/beszel_socket:/beszel_socket
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      LISTEN: /beszel_socket/beszel.sock
+      HUB_URL: http://127.0.0.1:8090
+      TOKEN: ${BESZEL_TOKEN:-}
+      KEY: ${BESZEL_KEY:-}
+
+networks:
+  proxy:
+    external: true

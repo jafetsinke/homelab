@@ -1,0 +1,93 @@
+http:
+  routers:
+    auth:
+      rule: Host(`auth.hypha.ee`) || Host(`auth.jafet.dev`)
+      entryPoints: &entrypoints
+        - web
+        - websecure
+      middlewares:
+        - https-headers
+      service: authelia
+      priority: &priority 100
+
+    home:
+      rule: Host(`home.hypha.ee`)
+      entryPoints: *entrypoints
+      middlewares: &authed
+        - https-headers
+        - authelia
+      service: homepage
+      priority: *priority
+
+    dockhand:
+      rule: Host(`dockhand.hypha.ee`)
+      entryPoints: *entrypoints
+      middlewares: *authed
+      service: dockhand
+      priority: *priority
+
+    komodo:
+      rule: Host(`komodo.hypha.ee`)
+      entryPoints: *entrypoints
+      middlewares: *authed
+      service: komodo
+      priority: *priority
+
+    beszel:
+      rule: Host(`beszel.hypha.ee`)
+      entryPoints: *entrypoints
+      middlewares:
+        - https-headers
+        - authelia
+        - beszel-body
+      service: beszel
+      priority: *priority
+
+    catchall:
+      rule: HostRegexp(`^.+\.hypha\.ee$`)
+      entryPoints: *entrypoints
+      service: errorpages
+      priority: 1
+
+  services:
+    authelia:
+      loadBalancer:
+        servers:
+          - url: http://authelia:9091
+
+    homepage:
+      loadBalancer: &pass-host
+        passHostHeader: true
+        servers:
+          - url: http://homepage:3000
+
+    dockhand:
+      loadBalancer:
+        <<: *pass-host
+        servers:
+          - url: http://dockhand:3000
+
+    komodo:
+      loadBalancer:
+        <<: *pass-host
+        servers:
+          - url: http://komodo-core:9120
+
+    beszel:
+      loadBalancer:
+        <<: *pass-host
+        servers:
+          - url: http://beszel:8090
+        serversTransport: beszel
+
+    errorpages:
+      loadBalancer:
+        servers:
+          - url: http://traefik-errorpages:80
+
+  serversTransports:
+    beszel:
+      forwardingTimeouts:
+        dialTimeout: 30s
+        responseHeaderTimeout: 360s
+        idleConnTimeout: 90s

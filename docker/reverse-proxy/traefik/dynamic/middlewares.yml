@@ -1,0 +1,21 @@
+http:
+  middlewares:
+    authelia:
+      forwardAuth:
+        address: http://authelia:9091/api/authz/forward-auth
+        trustForwardHeader: true
+        authResponseHeaders:
+          - Remote-User
+          - Remote-Groups
+          - Remote-Name
+          - Remote-Email
+
+    # External access is HTTPS (tunnel); force proto for backends/Authelia.
+    https-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    beszel-body:
+      buffering:
+        maxRequestBodyBytes: 10485760

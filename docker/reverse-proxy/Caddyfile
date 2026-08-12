@@ -1,9 +1,7 @@
 {
-	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-
 	servers {
 		trusted_proxies static 172.19.0.0/16
-		client_ip_headers Cf-Connecting-Ip X-Forwarded-For
+		client_ip_headers X-Forwarded-For
 	}
 }
 
@@ -31,23 +29,36 @@
 	}
 }
 
-http://auth.jafet.dev, auth.jafet.dev {
+http://auth.jafet.dev {
 	reverse_proxy authelia:9091
 }
 
-http://home.jafet.dev, home.jafet.dev {
+http://home.jafet.dev {
 	import proxied homepage:3000
 }
 
-http://dockhand.jafet.dev, dockhand.jafet.dev {
+http://dockhand.jafet.dev {
 	import proxied dockhand:3000
 }
 
-http://dj-pool.jafet.dev, dj-pool.jafet.dev {
-	import proxied navidrome:4533
+http://komodo.jafet.dev {
+	import proxied komodo-core:9120
 }
 
-http://*.jafet.dev, *.jafet.dev {
+http://beszel.jafet.dev {
+	import authelia_forward_auth
+	request_body {
+		max_size 10MB
+	}
+	reverse_proxy beszel:8090 {
+		import proxy_headers
+		transport http {
+			read_timeout 360s
+		}
+	}
+}
+
+http://*.jafet.dev {
 	header Content-Type "text/html; charset=utf-8"
 	respond <<HTML
 		<!DOCTYPE html>
