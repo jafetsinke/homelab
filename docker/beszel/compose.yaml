@@ -20,6 +20,11 @@ services:
       - homepage.href=https://beszel.jafet.dev
       - homepage.description=Server monitoring hub
       - homepage.weight=3
+      - traefik.enable=true
+      - traefik.http.routers.beszel.rule=Host(`beszel.hypha.ee`)
+      - traefik.http.routers.beszel.middlewares=authelia@file,beszel-body@file
+      - traefik.http.services.beszel.loadbalancer.server.port=8090
+      - traefik.http.services.beszel.loadbalancer.serverstransport=beszel@file
 
   beszel-agent:
     image: henrygd/beszel-agent:latest

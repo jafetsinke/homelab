@@ -10,11 +10,15 @@ services:
       - homepage.href=https://home.jafet.dev
       - homepage.description=Application dashboard
       - homepage.weight=0
+      - traefik.enable=true
+      - traefik.http.routers.homepage.rule=Host(`home.hypha.ee`)
+      - traefik.http.routers.homepage.middlewares=authelia@file
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
     volumes:
       - ./config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: home.jafet.dev
+      HOMEPAGE_ALLOWED_HOSTS: home.jafet.dev,home.hypha.ee
     networks:
       - proxy
 

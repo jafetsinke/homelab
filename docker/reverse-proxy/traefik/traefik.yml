@@ -2,6 +2,10 @@ api:
   dashboard: false
 
 providers:
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    exposedByDefault: false
+    network: proxy
   file:
     directory: /etc/traefik/dynamic
     watch: true
@@ -14,6 +18,9 @@ entryPoints:
         - "10.0.0.0/8"
         - "172.16.0.0/12"
         - "192.168.0.0/16"
+    http:
+      middlewares:
+        - https-headers@file
   websecure:
     address: ":443"
     forwardedHeaders:
@@ -22,6 +29,8 @@ entryPoints:
         - "172.16.0.0/12"
         - "192.168.0.0/16"
     http:
+      middlewares:
+        - https-headers@file
       tls:
         certResolver: cloudflare
         domains:

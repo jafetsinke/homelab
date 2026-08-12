@@ -40,6 +40,10 @@ services:
       - homepage.href=https://dockhand.jafet.dev
       - homepage.description=Docker management platform
       - homepage.weight=2
+      - traefik.enable=true
+      - traefik.http.routers.dockhand.rule=Host(`dockhand.hypha.ee`)
+      - traefik.http.routers.dockhand.middlewares=authelia@file
+      - traefik.http.services.dockhand.loadbalancer.server.port=3000
 
 networks:
   proxy:

@@ -1,3 +1,4 @@
+# Shared middlewares / transports referenced from container labels as name@file.
 http:
   middlewares:
     authelia:
@@ -19,3 +20,10 @@ http:
     beszel-body:
       buffering:
         maxRequestBodyBytes: 10485760
+
+  serversTransports:
+    beszel:
+      forwardingTimeouts:
+        dialTimeout: 30s
+        responseHeaderTimeout: 360s
+        idleConnTimeout: 90s
