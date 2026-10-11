@@ -39,11 +39,16 @@ access_control:
         - 'dockhand.hypha.ee'
         - 'komodo.hypha.ee'
         - 'beszel.hypha.ee'
+        - 'homarr.hypha.ee'
+        - 'traefik.hypha.ee'
+        - 'dns.hypha.ee'
         - 'home.jafet.dev'
         - 'dockhand.jafet.dev'
         - 'komodo.jafet.dev'
         - 'beszel.jafet.dev'
+        - 'homarr.jafet.dev'
       policy: one_factor
+
 
 
 session:

@@ -1,0 +1,63 @@
+services:
+  technitium:
+    image: technitium/dns-server:latest
+    container_name: technitium
+    hostname: dns
+    restart: unless-stopped
+    ports:
+      # Bind DNS to the LAN address only (systemd-resolved keeps 127.0.0.53).
+      - "10.53.0.31:53:53/udp"
+      - "10.53.0.31:53:53/tcp"
+      # Local admin console (Traefik also fronts dns.hypha.ee).
+      - "127.0.0.1:5380:5380/tcp"
+    environment:
+      DNS_SERVER_DOMAIN: dns.hypha.ee
+      DNS_SERVER_ADMIN_PASSWORD: ${DNS_SERVER_ADMIN_PASSWORD}
+      DNS_SERVER_PREFER_IPV6: "false"
+      DNS_SERVER_RECURSION: AllowOnlyForPrivateNetworks
+      DNS_SERVER_ENABLE_BLOCKING: "true"
+      DNS_SERVER_BLOCK_LIST_URLS: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts,https://big.oisd.nl/domainswild
+      DNS_SERVER_FORWARDERS: 1.1.1.1, 1.0.0.1
+      DNS_SERVER_FORWARDER_PROTOCOL: Udp
+      DNS_SERVER_LOG_USING_LOCAL_TIME: "true"
+      DNS_SERVER_LOG_FOLDER_PATH: /var/log/technitium/dns
+    volumes:
+      - ./data/config:/etc/dns
+      - ./data/logs:/var/log/technitium/dns
+    networks:
+      - proxy
+    sysctls:
+      - net.ipv4.ip_local_port_range=1024 65535
+    labels:
+      - homepage.group=Infrastructure
+      - homepage.name=Technitium
+      - homepage.icon=mdi-dns
+      - homepage.href=https://dns.hypha.ee
+      - homepage.description=DNS, ad blocking, local zones
+      - homepage.weight=2
+      - traefik.enable=true
+      - traefik.http.routers.technitium.rule=Host(`dns.hypha.ee`)
+      - traefik.http.routers.technitium.middlewares=authelia@file
+      - traefik.http.services.technitium.loadbalancer.server.port=5380
+
+  technitium-init:
+    image: curlimages/curl:8.12.1
+    container_name: technitium-init
+    restart: "no"
+    depends_on:
+      - technitium
+    environment:
+      TECHNITIUM_URL: http://technitium:5380
+      TECHNITIUM_USER: admin
+      TECHNITIUM_PASS: ${DNS_SERVER_ADMIN_PASSWORD}
+      LOCAL_ZONE: hypha.ee
+      LOCAL_IP: 10.53.0.31
+    volumes:
+      - ./init-zone.sh:/init-zone.sh:ro
+    entrypoint: ["/bin/sh", "/init-zone.sh"]
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

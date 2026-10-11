@@ -1,0 +1,27 @@
+services:
+  homarr:
+    image: ghcr.io/homarr-labs/homarr:latest
+    container_name: homarr
+    restart: unless-stopped
+    environment:
+      SECRET_ENCRYPTION_KEY: ${SECRET_ENCRYPTION_KEY}
+    volumes:
+      - ./data/appdata:/appdata
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy
+    labels:
+      - homepage.group=Management
+      - homepage.name=Homarr
+      - homepage.icon=homarr.png
+      - homepage.href=https://homarr.jafet.dev
+      - homepage.description=Application dashboard
+      - homepage.weight=1
+      - traefik.enable=true
+      - traefik.http.routers.homarr.rule=Host(`homarr.hypha.ee`)
+      - traefik.http.routers.homarr.middlewares=authelia@file
+      - traefik.http.services.homarr.loadbalancer.server.port=7575
+
+networks:
+  proxy:
+    external: true

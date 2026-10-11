@@ -1,6 +1,0 @@
-minecraft.command.trigger:
-  description: Allows use of /trigger (homes, back, tpa datapacks)
-  default: true
-minecraft.command.teleport:
-  description: Allows use of /tp
-  default: true

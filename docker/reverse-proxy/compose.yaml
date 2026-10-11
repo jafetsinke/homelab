@@ -7,8 +7,13 @@ services:
       - homepage.group=Infrastructure
       - homepage.name=Traefik
       - homepage.icon=traefik.png
+      - homepage.href=https://traefik.hypha.ee/dashboard/
       - homepage.description=Auth and reverse proxy
       - homepage.weight=1
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.hypha.ee`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.middlewares=authelia@file
     ports:
       - 80:80
       - 443:443
