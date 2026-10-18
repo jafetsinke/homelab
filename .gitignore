@@ -3,11 +3,16 @@ __pycache__/
 *.pyc
 
 # Dockge
-.env
+*.env
 docker/*/data/
 docker/*/secrets/
 docker/*/authelia/db.sqlite3
 docker/*/authelia/notification.txt
 docker/*/authelia/users_database.yml
 
-*.env
+# kubernetes & talos
+kubeconfig
+talosconfig
+talos/secrets.yaml
+talos/output/
+talos-backup-*/

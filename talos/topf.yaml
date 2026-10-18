@@ -1,0 +1,37 @@
+# mycelia — managed by TOPF (https://postfinance.github.io/topf/)
+# Migrated from raw talosctl machine configs on 2026-10-17.
+# Backup: ../talos-backup-20261017/
+
+clusterName: mycelia
+clusterEndpoint: https://10.53.10.80:6443
+kubernetesVersion: 1.37.1
+talosVersion: 1.14.2
+
+# Default (no extensions) schematic — matches the running cluster.
+schematicId: 376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+platform: metal
+
+nodes:
+  - host: cp-01-cantharellus
+    ip: 10.53.10.81
+    role: control-plane
+
+  - host: cp-02-boletus
+    ip: 10.53.10.82
+    role: control-plane
+
+  - host: cp-03-cortinarius
+    ip: 10.53.10.83
+    role: control-plane
+
+  - host: worker-01-morchella
+    ip: 10.53.10.84
+    role: worker
+
+  # - host: worker-02-amanita
+  #   ip: 10.53.10.85
+  #   role: worker
+
+  # - host: worker-03-hericium
+  #   ip: 10.53.10.86
+  #   role: worker
