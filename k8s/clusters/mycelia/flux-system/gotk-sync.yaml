@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./clusters/mycelia
+  path: ./k8s/clusters/mycelia
   prune: true
   sourceRef:
     kind: GitRepository
