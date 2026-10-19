@@ -28,10 +28,10 @@ nodes:
     ip: 10.53.10.84
     role: worker
 
-  # - host: worker-02-amanita
-  #   ip: 10.53.10.85
-  #   role: worker
+  - host: worker-02-amanita
+    ip: 10.53.10.85
+    role: worker
 
-  # - host: worker-03-hericium
-  #   ip: 10.53.10.86
-  #   role: worker
+  - host: worker-03-hericium
+    ip: 10.53.10.86
+    role: worker
