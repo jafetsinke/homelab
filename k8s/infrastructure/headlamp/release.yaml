@@ -5,7 +5,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-
+  targetNamespace: headlamp
+  install:
+    createNamespace: true
   chart:
     spec:
       chart: headlamp
