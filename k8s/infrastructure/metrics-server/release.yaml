@@ -13,6 +13,6 @@ spec:
         kind: HelmRepository
         name: metrics-server
 
-    values:
-      args:
-        - --kubelet-insecure-tls # TODO: remove and install kubelet-serving-cert-approver
+  values:
+    args:
+      - --kubelet-insecure-tls # TODO: remove and install kubelet-serving-cert-approver
