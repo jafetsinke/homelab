@@ -4,6 +4,7 @@ metadata:
   name: infrastructure
   namespace: flux-system
 spec:
+  prune: true
   interval: 5m
   path: ./k8s/infrastructure
   sourceRef:
