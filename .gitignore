@@ -16,3 +16,6 @@ talosconfig
 talos/secrets.yaml
 talos/output/
 talos-backup-*/
+
+# misc
+.DS_Store
