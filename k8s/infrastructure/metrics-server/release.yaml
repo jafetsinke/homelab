@@ -6,13 +6,10 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: kube-system
+  releaseName: kube-metrics-server
   chart:
     spec:
       chart: metrics-server
       sourceRef:
         kind: HelmRepository
         name: metrics-server
-
-  values:
-    args:
-      - --kubelet-insecure-tls # TODO: remove and install kubelet-serving-cert-approver
