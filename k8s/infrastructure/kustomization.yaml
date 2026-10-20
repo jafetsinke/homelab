@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - headlamp
   - metrics-server
+  - kubelet-serving-cert-approver
