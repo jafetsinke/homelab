@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  interval: 30m
+  targetNamespace: traefik
+  releaseName: traefik
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+  values:
+    service:
+      spec:
+        type: LoadBalancer
+      annotations:
+        metallb.io/address-pool: default-pool
+        metallb.io/loadBalancerIPs: 10.53.10.90
+    ingressRoute:
+      dashboard:
+        enabled: true
+        matchRule: Host(`traefik.hypha.ee`)
+        entryPoints:
+          - web
+    providers:
+      kubernetesCRD:
+        enabled: true
+      kubernetesGateway:
+        enabled: true
+    gateway:
+      listeners:
+        web:
+          namespacePolicy:
+            from: All

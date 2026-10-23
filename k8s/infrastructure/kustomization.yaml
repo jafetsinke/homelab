@@ -7,3 +7,4 @@ resources:
   - kubelet-serving-cert-approver
   - metallb
   - metrics-server
+  - traefik
