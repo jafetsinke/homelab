@@ -2,6 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - gateway-api
   - headlamp
-  - metrics-server
   - kubelet-serving-cert-approver
+  - metallb
+  - metrics-server
