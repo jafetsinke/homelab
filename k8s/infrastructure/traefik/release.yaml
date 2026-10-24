@@ -28,13 +28,11 @@ spec:
         matchRule: Host(`traefik.hypha.ee`)
         entryPoints:
           - web
+          - websecure
     providers:
       kubernetesCRD:
         enabled: true
       kubernetesGateway:
         enabled: true
     gateway:
-      listeners:
-        web:
-          namespacePolicy:
-            from: All
+      enabled: false
