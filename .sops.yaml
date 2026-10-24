@@ -1,0 +1,7 @@
+creation_rules:
+  - path_regex: k8s/.*\.sops\.ya?ml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1enezww74fxce7gcc5ujtwjmnazl6wd8w0xgelvt5qf6htlephu9qmuzkua,age1xx4srukel7yr47ky6t5dl282ke0vm4awcwaqrd9j574n6pze5yas26jqry
+stores:
+  yaml:
+    indent: 2
