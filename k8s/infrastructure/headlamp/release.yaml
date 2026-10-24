@@ -19,7 +19,7 @@ spec:
   values:
     replicaCount: 2
     clusterRoleBinding:
-      create: false
+      create: true
     config:
       pluginsDir: /build/plugins
     initContainers:
