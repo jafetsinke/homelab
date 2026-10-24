@@ -5,3 +5,4 @@ resources:
   - repository.yaml
   - release.yaml
   - gateway.yaml
+  - certificate.yaml
