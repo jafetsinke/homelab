@@ -6,8 +6,6 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: authentik
-  install:
-    createNamespace: true
   releaseName: authentik
   chart:
     spec:
@@ -15,3 +13,29 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: authentik
+
+  values:
+    postgresql:
+      enabled: false
+    authentik:
+      error_reporting:
+        enabled: false
+      existingSecret:
+        secretName: authentik-config
+      postgresql:
+        host: postgres01-db-rw.database.svc.cluster.local
+        port: 5432
+        name: authentik
+        user: authentik
+    global:
+      env:
+        - name: AUTHENTIK_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: authentik-config
+              key: secret-key
+        - name: AUTHENTIK_POSTGRESQL__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: authentik-config
+              key: postgres-password
