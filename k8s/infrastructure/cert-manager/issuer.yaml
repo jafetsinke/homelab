@@ -4,7 +4,7 @@ metadata:
   name: letsencrypt-cloudflare
 spec:
   acme:
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
     email: admin@hypha.ee
     profile: tlsserver
     privateKeySecretRef:
