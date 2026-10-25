@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - cert-manager
+  - cloudnative-pg
   - gateway-api
   - headlamp
   - kubelet-serving-cert-approver
