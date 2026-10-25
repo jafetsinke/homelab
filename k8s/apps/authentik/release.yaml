@@ -6,6 +6,8 @@ metadata:
 spec:
   interval: 30m
   targetNamespace: authentik
+  install:
+    createNamespace: true
   releaseName: authentik
   chart:
     spec:
