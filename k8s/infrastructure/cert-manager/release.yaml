@@ -8,9 +8,13 @@ spec:
   targetNamespace: cert-manager
   install:
     createNamespace: true
-  chartRef:
-    kind: OCIRepository
-    name: cert-manager
+  chart:
+    spec:
+      chart: cert-manager
+      version: v1.21.3
+      sourceRef:
+        kind: HelmRepository
+        name: cert-manager
   values:
     crds:
       enabled: true
