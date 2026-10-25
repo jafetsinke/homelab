@@ -1,0 +1,40 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: authentik-http
+  namespace: authentik
+spec:
+  parentRefs:
+    - name: traefik
+      namespace: traefik
+      sectionName: http
+      kind: Gateway
+
+  hostnames:
+    - authentik.hypha.ee
+
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: authentik-https
+  namespace: authentik
+spec:
+  parentRefs:
+    - name: traefik
+      namespace: traefik
+      sectionName: https
+      kind: Gateway
+
+  hostnames:
+    - authentik.hypha.ee
+
+  rules:
+    - backendRefs:
+        - name: authentik
+          port: 80
