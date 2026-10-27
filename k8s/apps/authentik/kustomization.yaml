@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - repository.yaml
-  # - release.yaml
-  # - httproute.yaml
+  - release.yaml
+  - httproute.yaml
   - secret.sops.yaml
