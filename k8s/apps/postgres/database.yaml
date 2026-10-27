@@ -4,6 +4,6 @@ metadata:
   name: authentik
 spec:
   name: authentik
-  owner: authentik
+  owner: authentik-owner
   cluster:
     name: postgres
