@@ -1,0 +1,30 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: authentik-owner
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+
+  name: authentik-owner
+  login: false
+
+  password:
+    mode: setNull
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: authentik-user
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+
+  name: authentik-user
+  login: true
+
+  password:
+    mode: secret
+    secret: authentik-user

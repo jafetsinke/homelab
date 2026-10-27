@@ -20,13 +20,11 @@ spec:
     authentik:
       error_reporting:
         enabled: false
-      existingSecret:
-        secretName: authentik-config
       postgresql:
-        host: postgres-rw.database.svc.cluster.local
+        host: postgres-rw.postgres.svc.cluster.local
         port: 5432
         name: authentik
-        user: authentik
+        user: authentik-user
     global:
       env:
         - name: AUTHENTIK_SECRET_KEY
