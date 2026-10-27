@@ -20,6 +20,5 @@ spec:
     name: postgres
   name: authentik_user
   login: true
-  password:
-    mode: secret
-    secret: authentik-user
+  passwordSecret:
+    name: authentik-user
