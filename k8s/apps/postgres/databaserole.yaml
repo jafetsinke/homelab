@@ -6,12 +6,9 @@ metadata:
 spec:
   cluster:
     name: postgres
-
-  name: authentik-owner
-  login: false
-
-  password:
-    mode: setNull
+  name: authentik_owner
+  login: true
+  disablePassword: true
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: DatabaseRole
@@ -21,10 +18,8 @@ metadata:
 spec:
   cluster:
     name: postgres
-
-  name: authentik-user
+  name: authentik_user
   login: true
-
   password:
     mode: secret
     secret: authentik-user
