@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-nvme-worker-01-morchella
+spec:
+  capacity:
+    storage: 32G
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-nvme
+  local:
+    path: /var/mnt/local-nvme
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - worker-01-morchella
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-nvme-worker-02-amanita
+spec:
+  capacity:
+    storage: 32G
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-nvme
+  local:
+    path: /var/mnt/local-nvme
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - worker-02-amanita
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-nvme-worker-03-hericium
+spec:
+  capacity:
+    storage: 32G
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-nvme
+  local:
+    path: /var/mnt/local-nvme
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - worker-03-hericium

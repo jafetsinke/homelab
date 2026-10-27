@@ -23,7 +23,7 @@ spec:
       existingSecret:
         secretName: authentik-config
       postgresql:
-        host: postgres01-db-rw.database.svc.cluster.local
+        host: postgres-db-rw.database.svc.cluster.local
         port: 5432
         name: authentik
         user: authentik

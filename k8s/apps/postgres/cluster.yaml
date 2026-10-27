@@ -1,0 +1,16 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  instances: 3
+  primaryUpdateStrategy: unsupervised
+  postgresql:
+    synchronous:
+      method: any
+      number: 1
+      dataDurability: required
+  storage:
+    size: 32G
+    storageClass: local-nvme

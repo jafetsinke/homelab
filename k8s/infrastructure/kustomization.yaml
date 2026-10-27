@@ -7,6 +7,7 @@ resources:
   - gateway-api
   - headlamp
   - kubelet-serving-cert-approver
+  - local-storage
   - metallb
   - metrics-server
   - traefik
