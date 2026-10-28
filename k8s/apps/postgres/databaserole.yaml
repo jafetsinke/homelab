@@ -6,7 +6,7 @@ metadata:
 spec:
   cluster:
     name: postgres
-  name: authentik
+  name: authentik_user
   login: true
   passwordSecret:
     name: authentik-user

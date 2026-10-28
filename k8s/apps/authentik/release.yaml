@@ -24,7 +24,7 @@ spec:
         host: postgres-rw.postgres.svc.cluster.local
         port: 5432
         name: authentik
-        user: authentik
+        user: authentik_user
     global:
       env:
         - name: AUTHENTIK_SECRET_KEY
