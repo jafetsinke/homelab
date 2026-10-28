@@ -5,6 +5,6 @@ metadata:
   namespace: postgres
 spec:
   name: authentik
-  owner: authentik_owner
+  owner: authentik
   cluster:
     name: postgres
