@@ -36,5 +36,5 @@ spec:
 
   rules:
     - backendRefs:
-        - name: authentik
+        - name: authentik-server
           port: 80
