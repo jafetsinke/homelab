@@ -22,6 +22,12 @@ spec:
       create: true
     config:
       pluginsDir: /build/plugins
+      oidc:
+        secret:
+          create: false
+        externalSecret:
+          enabled: true
+          name: headlamp-oidc
     initContainers:
       - command:
           - /bin/sh

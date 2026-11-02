@@ -6,3 +6,4 @@ resources:
   - release.yaml
   - httproute.yaml
   - namespace.yaml
+  - secrets.sops.yaml
