@@ -21,13 +21,14 @@ spec:
     clusterRoleBinding:
       create: true
     config:
-      pluginsDir: /build/plugins
       oidc:
         secret:
           create: false
         externalSecret:
           enabled: true
           name: headlamp-oidc
+        callbackURL: "https://headlamp.hypha.ee/oidc-callback"
+      pluginsDir: /build/plugins
     initContainers:
       - command:
           - /bin/sh
