@@ -25,15 +25,12 @@ spec:
         port: 5432
         name: authentik
         user: authentik_user
+      email:
+        host: smtp.resend.com
+        port: 587
+        use_tls: true
+        from: authentik@jafet.dev
     global:
-      env:
-        - name: AUTHENTIK_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: authentik-config
-              key: secret-key
-        - name: AUTHENTIK_POSTGRESQL__PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: authentik-config
-              key: postgres-password
+      envFrom:
+        - secretRef:
+            name: authentik-env
