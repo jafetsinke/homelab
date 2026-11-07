@@ -8,6 +8,7 @@ resources:
   - headlamp
   - kubelet-serving-cert-approver
   - local-storage
+  - longhorn
   - metallb
   - metrics-server
   - traefik
