@@ -7,3 +7,4 @@ resources:
   - release.yaml
   - httproute.yaml
   - secret.sops.yaml
+  - pvc.yaml

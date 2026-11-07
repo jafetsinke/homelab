@@ -34,3 +34,16 @@ spec:
       envFrom:
         - secretRef:
             name: authentik-env
+
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+      volumes:
+        - name: authentik-data
+          persistentVolumeClaim:
+            claimName: authentik-data
+
+      volumeMounts:
+        - name: authentik-data
+          mountPath: /data
