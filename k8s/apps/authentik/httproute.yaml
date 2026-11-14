@@ -13,6 +13,8 @@ spec:
   hostnames:
     - authentik.hypha.ee
     - authentik.jafet.dev
+    - auth.hypha.ee
+    - auth.jafet.dev
 
   rules:
     - filters:
@@ -35,6 +37,8 @@ spec:
   hostnames:
     - authentik.hypha.ee
     - authentik.jafet.dev
+    - auth.hypha.ee
+    - auth.jafet.dev
 
   rules:
     - backendRefs:
