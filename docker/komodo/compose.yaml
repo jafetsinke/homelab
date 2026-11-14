@@ -37,8 +37,7 @@ services:
       KOMODO_PERIPHERY_PUBLIC_KEY: file:/config/keys/periphery.pub
       KOMODO_LOCAL_AUTH: false
       KOMODO_OIDC_ENABLED: true
-      KOMODO_OIDC_PROVIDER: https://auth.hypha.ee/application/o/komodo
-      ## Browser-reachable Authentik host, without the provider path.
+      KOMODO_OIDC_PROVIDER: https://auth.hypha.ee/application/o/komodo/
       KOMODO_OIDC_REDIRECT_HOST: https://auth.hypha.ee
       KOMODO_OIDC_USE_FULL_EMAIL: true
     networks:
@@ -47,7 +46,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.komodo.rule=Host(`komodo.hypha.ee`)
-      - traefik.http.routers.komodo.middlewares=authelia@file
       - traefik.http.services.komodo.loadbalancer.server.port=9120
 
     volumes:
