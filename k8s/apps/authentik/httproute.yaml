@@ -11,10 +11,7 @@ spec:
       kind: Gateway
 
   hostnames:
-    - authentik.hypha.ee
-    - authentik.jafet.dev
     - auth.hypha.ee
-    - auth.jafet.dev
 
   rules:
     - filters:
@@ -35,10 +32,7 @@ spec:
       kind: Gateway
 
   hostnames:
-    - authentik.hypha.ee
-    - authentik.jafet.dev
     - auth.hypha.ee
-    - auth.jafet.dev
 
   rules:
     - backendRefs:

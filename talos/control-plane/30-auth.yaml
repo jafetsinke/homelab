@@ -11,7 +11,7 @@ configuration:
     enabled: true
   jwt:
     - issuer:
-        url: "https://authentik.hypha.ee/application/o/headlamp/"
+        url: "https://auth.hypha.ee/application/o/headlamp/"
         audiences:
           - "O68mNjWiuzPDIFuOrDOzVMoLKgU499MY8IHoXQ0P"
       claimMappings:
