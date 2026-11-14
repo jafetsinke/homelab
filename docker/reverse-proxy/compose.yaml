@@ -50,24 +50,6 @@ services:
       - traefik.http.routers.errorpages.priority=1
       - traefik.http.services.errorpages.loadbalancer.server.port=80
 
-  caddy:
-    image: caddy:2-alpine
-    container_name: caddy
-    restart: unless-stopped
-    labels:
-      - homepage.group=Infrastructure
-      - homepage.name=Caddy
-      - homepage.icon=caddy.png
-      - homepage.description=Auth and reverse proxy (standby)
-      - homepage.weight=2
-    # Ports removed — Traefik owns 80/443. Keep container for rollback.
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-    depends_on:
-      - authelia
-    networks:
-      - proxy
-
   authelia:
     image: authelia/authelia:latest
     container_name: authelia
