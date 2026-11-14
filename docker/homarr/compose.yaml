@@ -19,7 +19,7 @@ services:
       - homepage.weight=1
       - traefik.enable=true
       - traefik.http.routers.homarr.rule=Host(`homarr.hypha.ee`)
-      - traefik.http.routers.homarr.middlewares=authelia@file
+      - traefik.http.routers.homarr.middlewares=authentik@file
       - traefik.http.services.homarr.loadbalancer.server.port=7575
 
 networks:

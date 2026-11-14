@@ -12,6 +12,7 @@ spec:
 
   hostnames:
     - auth.hypha.ee
+    - auth.jafet.dev
 
   rules:
     - filters:
@@ -33,6 +34,7 @@ spec:
 
   hostnames:
     - auth.hypha.ee
+    - auth.jafet.dev
 
   rules:
     - backendRefs:

@@ -37,7 +37,7 @@ services:
       - homepage.weight=2
       - traefik.enable=true
       - traefik.http.routers.technitium.rule=Host(`dns.hypha.ee`)
-      - traefik.http.routers.technitium.middlewares=authelia@file
+      - traefik.http.routers.technitium.middlewares=authentik@file
       - traefik.http.services.technitium.loadbalancer.server.port=5380
 
   technitium-init:

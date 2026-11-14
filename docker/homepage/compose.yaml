@@ -12,7 +12,7 @@ services:
       - homepage.weight=0
       - traefik.enable=true
       - traefik.http.routers.homepage.rule=Host(`home.hypha.ee`)
-      - traefik.http.routers.homepage.middlewares=authelia@file
+      - traefik.http.routers.homepage.middlewares=authentik@file
       - traefik.http.services.homepage.loadbalancer.server.port=3000
     volumes:
       - ./config:/app/config
