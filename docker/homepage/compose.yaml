@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     labels:
       - homepage.group=Management
-      - homepage.name=Homepage
+      - homepage.name=Homepage test
       - homepage.icon=homepage.png
       - homepage.href=https://home.jafet.dev
       - homepage.description=Application dashboard
