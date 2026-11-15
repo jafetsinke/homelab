@@ -33,7 +33,6 @@ services:
       KOMODO_MONITORING_INTERVAL: "15-sec"
       KOMODO_RESOURCE_POLL_INTERVAL: "1-hr"
       KOMODO_JWT_TTL: "1-day"
-      ## Trust the key Periphery writes into the shared keys volume.
       KOMODO_PERIPHERY_PUBLIC_KEY: file:/config/keys/periphery.pub
       KOMODO_LOCAL_AUTH: false
       KOMODO_OIDC_ENABLED: true
@@ -53,8 +52,8 @@ services:
       - keys:/config/keys
       ## Store dated backups of the database - https://komo.do/docs/setup/backup
       - ./backups:/backups
-      ## Store sync files on server
-      # - /path/to/syncs:/syncs
+      ## Host ResourceSync root is /syncs/<sync-name>/ (name = docker-stacks)
+      - /home/jafet/git/homelab/docker:/syncs/docker-stacks:ro
       ## Optionally mount a custom core.config.toml
       # - /path/to/core.config.toml:/config/config.toml
       ## Optionally mount custom root CA certificate to trust
@@ -81,6 +80,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - /home/jafet/git/homelab/docker:/home/jafet/git/homelab/docker
+      ## Host sops binary (decrypt .env.sops at deploy time)
+      - /usr/bin/sops:/usr/local/bin/sops:ro
 
 volumes:
   # Mongo

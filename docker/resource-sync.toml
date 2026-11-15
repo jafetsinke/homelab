@@ -1,0 +1,18 @@
+[[resource_sync]]
+name = "docker-stacks"
+[resource_sync.config]
+files_on_host = false
+repo = "jafetsinke/homelab"
+branch = "main"
+git_account = "jafetsinke"
+resource_path = [
+  "docker/beszel/stack.toml",
+  "docker/dj-pool/stack.toml",
+  "docker/dockhand/stack.toml",
+  "docker/homarr/stack.toml",
+  "docker/homepage/stack.toml",
+  "docker/minecraft/stack.toml",
+]
+delete = false
+include_resources = true
+pending_alert = true

@@ -19,3 +19,4 @@ talos-backup-*/
 
 # misc
 .DS_Store
+docker/komodo/backups/
