@@ -78,7 +78,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - /home/jafet/komodo:/home/jafet/komodo
-      ## Host sops binary (decrypt .env.sops at deploy time)
+      ## Host sops binary (decrypt sops.env at deploy time)
       - /usr/bin/sops:/usr/local/bin/sops:ro
 
 volumes:

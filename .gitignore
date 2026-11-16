@@ -4,6 +4,7 @@ __pycache__/
 
 # Docker stacks / local secrets
 *.env
+!sops.env
 docker/stacks/*/data/
 docker/stacks/*/secrets/
 docker/stacks/*/authelia/db.sqlite3
