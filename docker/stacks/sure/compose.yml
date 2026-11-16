@@ -35,6 +35,7 @@ services:
       - 1.1.1.1
     networks:
       - sure
+      - proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.sure.rule=Host(`sure.hypha.ee`)
@@ -96,5 +97,7 @@ volumes:
   redis-data:
 
 networks:
+  proxy:
+    external: true
   sure:
     driver: bridge
