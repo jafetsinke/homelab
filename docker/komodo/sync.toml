@@ -6,9 +6,8 @@ linked_repo = "homelab"
 files_on_host = false
 resource_path = [
   "docker/komodo/stacks",
-  "docker/komodo/variables.toml",
 ]
 delete = false
 include_resources = true
-include_variables = true
+include_variables = false
 pending_alert = true
