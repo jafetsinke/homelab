@@ -2,13 +2,13 @@
 __pycache__/
 *.pyc
 
-# Dockge
+# Docker stacks / local secrets
 *.env
-docker/*/data/
-docker/*/secrets/
-docker/*/authelia/db.sqlite3
-docker/*/authelia/notification.txt
-docker/*/authelia/users_database.yml
+docker/stacks/*/data/
+docker/stacks/*/secrets/
+docker/stacks/*/authelia/db.sqlite3
+docker/stacks/*/authelia/notification.txt
+docker/stacks/*/authelia/users_database.yml
 
 # kubernetes & talos
 kubeconfig

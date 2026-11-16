@@ -1,0 +1,8 @@
+[[repo]]
+name = "homelab"
+
+[repo.config]
+server = "Mycelia"
+git_account = "jafetsinke"
+repo = "jafetsinke/homelab"
+branch = "main"

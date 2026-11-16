@@ -1,0 +1,14 @@
+[[resource_sync]]
+name = "docker-stacks"
+
+[resource_sync.config]
+linked_repo = "homelab"
+files_on_host = false
+resource_path = [
+  "docker/komodo/stacks",
+  "docker/komodo/variables.toml",
+]
+delete = false
+include_resources = true
+include_variables = true
+pending_alert = true

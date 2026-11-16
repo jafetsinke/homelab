@@ -1,0 +1,11 @@
+[[stack]]
+name = "dj-pool"
+deploy = true
+
+[stack.config]
+server = "Mycelia"
+linked_repo = "homelab"
+run_directory = "docker/stacks/dj-pool"
+config_files = [".env.sops"]
+compose_cmd_wrapper = "[[SOPS_COMPOSE_WRAPPER]]"
+compose_cmd_wrapper_include = ["config", "build", "pull", "up"]

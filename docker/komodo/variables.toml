@@ -1,0 +1,3 @@
+[[variable]]
+name = "SOPS_COMPOSE_WRAPPER"
+value = "SOPS_AGE_KEY=\"[[SOPS_AGE_KEY]]\" sops exec-env .env.sops '[[COMPOSE_COMMAND]]'"

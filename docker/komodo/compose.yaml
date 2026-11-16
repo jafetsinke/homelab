@@ -51,9 +51,7 @@ services:
       ## Attach the Core / Periphery communication keys
       - keys:/config/keys
       ## Store dated backups of the database - https://komo.do/docs/setup/backup
-      - ./backups:/backups
-      ## Host ResourceSync root is /syncs/<sync-name>/ (name = docker-stacks)
-      - /home/jafet/git/homelab/docker:/syncs/docker-stacks:ro
+      - /home/jafet/komodo-backups:/backups
       ## Optionally mount a custom core.config.toml
       # - /path/to/core.config.toml:/config/config.toml
       ## Optionally mount custom root CA certificate to trust
@@ -73,13 +71,13 @@ services:
       PERIPHERY_CORE_ADDRESS: ws://core:9120
       PERIPHERY_CONNECT_AS: Mycelia
       PERIPHERY_CORE_PUBLIC_KEYS: file:/config/keys/core.pub
-      ## Must match the bind mount below. Periphery only manages children of this path.
-      PERIPHERY_ROOT_DIRECTORY: /home/jafet/git/homelab/docker
+      ## Must match the bind mount below. Covers linked_repo clones + docker/stacks/*.
+      PERIPHERY_ROOT_DIRECTORY: /home/jafet/git/homelab
     volumes:
       - keys:/config/keys
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
-      - /home/jafet/git/homelab/docker:/home/jafet/git/homelab/docker
+      - /home/jafet/git/homelab:/home/jafet/git/homelab
       ## Host sops binary (decrypt .env.sops at deploy time)
       - /usr/bin/sops:/usr/local/bin/sops:ro
 

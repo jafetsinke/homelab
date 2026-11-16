@@ -1,9 +1,0 @@
-[[stack]]
-name = "homepage"
-deploy = false
-[stack.config]
-server = "Mycelia"
-files_on_host = true
-run_directory = "/home/jafet/git/homelab/docker/homepage"
-file_paths = ["compose.yaml"]
-project_name = "homepage"
