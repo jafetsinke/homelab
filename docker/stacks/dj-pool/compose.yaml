@@ -19,7 +19,7 @@ services:
       ND_LASTFM_APIKEY: ${LASTFM_APIKEY}
       ND_LASTFM_SECRET: ${LASTFM_SECRET}
     volumes:
-      - ./data/navidrome:/data
+      - /home/jafet/git/homelab/docker/stacks/dj-pool/data/navidrome:/data
       - /mnt/mycelia/dj-pool/music:/music
     networks:
       - proxy
