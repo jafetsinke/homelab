@@ -1,0 +1,11 @@
+[[stack]]
+name = "sure"
+deploy = true
+
+[stack.config]
+server = "Mycelia"
+linked_repo = "homelab"
+run_directory = "docker/stacks/sure"
+config_files = ["sops.env"]
+compose_cmd_wrapper = "SOPS_AGE_KEY=\"[[SOPS_AGE_KEY]]\" sops exec-env sops.env '[[COMPOSE_COMMAND]]'"
+compose_cmd_wrapper_include = ["config", "build", "pull", "up"]
