@@ -38,7 +38,7 @@ services:
       MODRINTH_DOWNLOAD_DEPENDENCIES: required
       INITIAL_ENABLED_PACKS: "vanilla"
     volumes:
-      - ./fabric:/data
+      - /home/jafet/git/homelab/docker/stacks/minecraft/fabric:/data
     networks:
       - proxy
 
